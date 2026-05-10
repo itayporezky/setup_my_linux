@@ -110,6 +110,19 @@ install_claude() {
 }
 run_step "Install Claude Code" install_claude
 
+# ── GNOME Browser Connector ──────────────────────────────────────────────────
+# Required for installing GNOME Shell extensions via the browser
+install_gnome_browser_connector() {
+    sudo apt install -y gnome-browser-connector
+}
+run_step "Install GNOME Browser Connector" install_gnome_browser_connector
+
+# ── Tailscale ────────────────────────────────────────────────────────────────
+install_tailscale() {
+    curl -fsSL https://tailscale.com/install.sh | sh
+}
+run_step "Install Tailscale" install_tailscale
+
 # ── Summary ─────────────────────────────────────────────────────────────────
 echo
 echo "════════════════════════════════════════"
@@ -128,4 +141,6 @@ echo "════════════════════════�
 echo
 echo "Next steps:"
 echo "  • Run 'newgrp docker' or log out/in to use Docker without sudo"
-echo "  • Run 'source ~/.profile' or open a new terminal for Go in PATH"
+echo "  • Run 'source ~/.profile' or open a new terminal for Go in PATH
+  • Run 'sudo tailscale up' to connect to your Tailscale network
+  • Install Vitals GNOME extension manually: https://extensions.gnome.org/extension/1460/vitals/"
