@@ -95,12 +95,14 @@ run_step "Install Go ${GO_VERSION}" install_go
 # ── uv ───────────────────────────────────────────────────────────────────────
 install_uv() {
     curl -LsSf https://astral.sh/uv/install.sh | sh
+    "$HOME/.local/bin/uv" self update
 }
 run_step "Install uv" install_uv
 
 # ── Spotify ──────────────────────────────────────────────────────────────────
 install_spotify() {
     sudo snap install spotify
+    sudo snap refresh spotify
 }
 run_step "Install Spotify (snap)" install_spotify
 
@@ -120,8 +122,40 @@ run_step "Install GNOME Browser Connector" install_gnome_browser_connector
 # ── Tailscale ────────────────────────────────────────────────────────────────
 install_tailscale() {
     curl -fsSL https://tailscale.com/install.sh | sh
+    sudo tailscale update
 }
 run_step "Install Tailscale" install_tailscale
+
+# ── Build essentials ─────────────────────────────────────────────────────────
+install_build_essential() {
+    sudo apt-get update -qq
+    sudo apt-get install -y build-essential
+}
+run_step "Install build-essential" install_build_essential
+
+# ── Rust ─────────────────────────────────────────────────────────────────────
+install_rust() {
+    curl https://sh.rustup.rs -sSf | sh -s -- -y
+    # shellcheck source=/dev/null
+    source "$HOME/.cargo/env"
+}
+run_step "Install Rust" install_rust
+
+# ── cargo-binstall ───────────────────────────────────────────────────────────
+install_cargo_binstall() {
+    # shellcheck source=/dev/null
+    source "$HOME/.cargo/env"
+    curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash
+}
+run_step "Install cargo-binstall" install_cargo_binstall
+
+# ── Zellij ───────────────────────────────────────────────────────────────────
+install_zellij() {
+    # shellcheck source=/dev/null
+    source "$HOME/.cargo/env"
+    cargo binstall -y zellij
+}
+run_step "Install Zellij" install_zellij
 
 # ── Summary ─────────────────────────────────────────────────────────────────
 echo
