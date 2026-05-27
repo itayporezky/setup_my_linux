@@ -158,6 +158,7 @@ install_zellij() {
 run_step "Install Zellij" install_zellij
 
 # ── libfuse2t64 ──────────────────────────────────────────────────────────────
+# Required for running AppImages
 install_libfuse2t64() {
     sudo apt-get install -y libfuse2t64
 }
